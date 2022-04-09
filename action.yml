@@ -38,9 +38,9 @@ runs:
       if: failure()
       shell: bash
       run: |
-        MESSAGE='Fuzz test failed. Download the seed corpus with \n
-        ```\n
-        gh run download ${{ github.run_id }} -n testdata\n
+        MESSAGE='Fuzz test failed. Download the seed corpus with
+        ```
+        gh run download ${{ github.run_id }} -n testdata
         ```'
         echo -e "$MESSAGE"
         echo -e "MESSAGE=$MESSAGE" >> $GITHUB_ENV
