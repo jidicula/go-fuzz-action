@@ -40,7 +40,6 @@ runs:
       run: |
         MESSAGE='Fuzz test failed. Download the seed corpus with\n```\ngh run download ${{ github.run_id }} -n testdata\n```'
         echo -e "$MESSAGE"
-        echo -e "MESSAGE=$MESSAGE" >> $GITHUB_ENV
     - name: Report failure
       uses: actions/github-script@v6
       with:
