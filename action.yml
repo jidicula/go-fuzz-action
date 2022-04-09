@@ -28,15 +28,11 @@ runs:
         go-version: '1.18'
     - shell: bash
       run: go test -fuzz="${{ inputs.fuzz-regexp }}" -fuzztime="${{ inputs.fuzz-time }}" -fuzzminimizetime="${{ inputs.fuzz-minimize-time }}"
-    - name: Artifact name
-      if: failure()
-      shell: bash
-      run: echo "artifact_name='Fuzz-failure-seed-corpus'" >> $GITHUB_ENV
     - name: Upload fuzz failure seed corpus as run artifact
       if: failure()
       uses: actions/upload-artifact@v3
       with:
-        name: ${{ env.artifact_name }}
+        name: testdata
         path: testdata
     - name: Report failure
       uses: actions/github-script@v6
@@ -49,6 +45,6 @@ runs:
             body: 'Fuzz test failed. Download the seed corpus with
 
             ```
-            gh run download ${{ github.run_id }} -n ${{ env.artifact_name }}
+            gh run download ${{ github.run_id }} -n testdata
             ```'
           })
