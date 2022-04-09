@@ -34,6 +34,16 @@ runs:
       with:
         name: testdata
         path: testdata
+    - name: Output message
+      if: failure()
+      shell: bash
+      run: |
+        MESSAGE='Fuzz test failed. Download the seed corpus with \n
+        ```\n
+        gh run download ${{ github.run_id }} -n testdata\n
+        ```'
+        echo -e "$MESSAGE"
+        echo -e "MESSAGE=$MESSAGE" >> $GITHUB_ENV
     - name: Report failure
       uses: actions/github-script@v6
       with:
@@ -42,9 +52,5 @@ runs:
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: 'Fuzz test failed. Download the seed corpus with
-
-            ```
-            gh run download ${{ github.run_id }} -n testdata
-            ```'
+            body: ${{ env.MESSAGE }}
           })
