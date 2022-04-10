@@ -34,19 +34,23 @@ runs:
       with:
         name: testdata
         path: testdata
+
     - name: Save PR head commit SHA
       if: ${{ github.event_name == 'pull_request' }}
       shell: bash
-      run: echo "sha=${{ github.event.pull_request.head.sha }}" >> $GITHUB_ENV
+      run: |
+        SHA="${{ github.event.pull_request.head.sha }}"
+        echo "SHA=$SHA" >> $GITHUB_ENV
     - name: Save latest commit SHA if not PR
       if: ${{ github.event_name != 'pull_request' }}
       shell: bash
-      run: echo "sha=${{ github.sha }}" >> $GITHUB_ENV
+      run: echo "SHA=${{ github.sha }}" >> $GITHUB_ENV
+
     - name: Output message
       if: failure()
       shell: bash
       run: |
-        MESSAGE='Fuzz test failed on ${{ env.sha }}. Download the seed corpus with\n```\ngh run download ${{ github.run_id }} -n testdata\n```'
+        MESSAGE='Fuzz test failed on ${{ env.SHA }}. Download the seed corpus with\n```\ngh run download ${{ github.run_id }} -n testdata\n```'
         echo -e "$MESSAGE"
     - name: Report failure
       uses: actions/github-script@v6
@@ -57,5 +61,5 @@ runs:
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: 'Fuzz test failed on ${{ env.sha }}. Download the seed corpus with\n```\ngh run download ${{ github.run_id }} -n testdata\n```'
+            body: 'Fuzz test failed on ${{ env.SHA }}. Download the seed corpus with\n```\ngh run download ${{ github.run_id }} -n testdata\n```'
           })
