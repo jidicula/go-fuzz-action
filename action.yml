@@ -35,16 +35,17 @@ runs:
         name: testdata
         path: testdata
     - run: echo "EVENT NAME IS ${{ github.event_name }}"
+      if: failure()
       shell: bash
 
     - name: Save PR head commit SHA
-      if: ${{ github.event_name == 'pull_request' }}
+      if: failure() && github.event_name == 'pull_request'
       shell: bash
       run: |
         SHA="${{ github.event.pull_request.head.sha }}"
         echo "SHA=$SHA" >> $GITHUB_ENV
     - name: Save latest commit SHA if not PR
-      if: ${{ github.event_name != 'pull_request' }}
+      if: failure() && github.event_name != 'pull_request'
       shell: bash
       run: echo "SHA=${{ github.sha }}" >> $GITHUB_ENV
 
@@ -56,7 +57,7 @@ runs:
         echo -e "$MESSAGE"
     - name: Report failure
       uses: actions/github-script@v6
-      if: failure()
+      if: failure() && github.event_name == 'pull_request'
       with:
         script: |
           github.rest.issues.createComment({
