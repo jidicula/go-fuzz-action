@@ -34,6 +34,8 @@ runs:
       with:
         name: testdata
         path: testdata
+    - run: echo "EVENT NAME IS ${{ github.event_name }}"
+      shell: bash
 
     - name: Save PR head commit SHA
       if: ${{ github.event_name == 'pull_request' }}
