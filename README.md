@@ -24,6 +24,8 @@ You can sponsor me [here](https://github.com/sponsors/jidicula)!
 # Usage
 ⚠️This Action is not tested on `windows` GitHub Actions runners! Use with `windows` runner OS at your own risk!
 
+Create a `.github/workflows/go-fuzz-test.yml` in your repository containing:
+
 
 ```yaml
 name: Go fuzz test
@@ -40,7 +42,9 @@ jobs:
           fuzz-time: 30s
 ```
 
-If you have multiple packages in your repo and you want to fuzz test them all:
+## Fuzz test all packages in repo
+
+If you have multiple packages in your repo and you want to fuzz test them all, create a `.github/workflows/go-fuzz-test.yml` in your repository containing:
 
 ```yaml
 name: Go fuzz test
@@ -58,7 +62,9 @@ jobs:
           fuzz-time: 30s
 ```
 
-If you want the fuzz test to spend more time on minimizing the failing input to the smallest possible and most human readable value which will still produce an error:
+## Longer minimize time
+
+If you want the fuzz test to spend more time on minimizing the failing input to the smallest possible and most human readable value which will still produce an error, create a `.github/workflows/go-fuzz-test.yml` in your repository containing:
 
 ```yaml
 name: Go fuzz test
@@ -77,7 +83,9 @@ jobs:
           fuzz-minimize-time: 1m
 ```
 
-If you have fuzz tests that don't begin with `Fuzz` (the default regexp):
+## Fuzz tests with different regexp
+
+If you have fuzz tests that don't begin with `Fuzz` (the default regexp), create a `.github/workflows/go-fuzz-test.yml` in your repository containing:
 
 ```yaml
 name: Go fuzz test
@@ -97,7 +105,7 @@ jobs:
           fuzz-regexp: OtherFuzzRegexp
 ```
 
-# Example repo:
+# Example repo
 
 I haven't figured out how to test this adequately within this repo, so you can verify its behaviour here: https://github.com/jidicula/test-go-fuzz-action/pull/2
 
