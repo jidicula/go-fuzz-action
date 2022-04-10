@@ -18,7 +18,7 @@ You can sponsor me [here](https://github.com/sponsors/jidicula)!
 ## Returns:
 * SUCCESS: if your fuzz tests don't raise a failure within the `fuzz-time` input constraint.
 * FAILURE: if your fuzz tests raise a failure within the `fuzz-time` input constraint.
-  * The workflow run logs will include instructions on how to download the failing seed corpus to your local machine for remediation, regardless of run trigger.
+  * The workflow run logs will include instructions on how to download (using the [GitHub CLI](https://cli.github.com)) the failing seed corpus to your local machine for remediation, regardless of run trigger.
   * If you run this Action in a PR workflow, it'll comment these instructions on your PR: <img width="864" alt="image" src="https://user-images.githubusercontent.com/12765385/162630131-9050221e-dc75-4620-aa19-d004d8678074.png">
 
 # Usage
@@ -37,7 +37,7 @@ jobs:
     name: Fuzz test
     runs-on: ubuntu-latest
     steps:
-      - uses: jidicula/go-fuzz-action@main
+      - uses: jidicula/go-fuzz-action@v1.1.0
         with:
           fuzz-time: 30s
 ```
@@ -56,7 +56,7 @@ jobs:
     name: Fuzz test
     runs-on: ubuntu-latest
     steps:
-      - uses: jidicula/go-fuzz-action@main
+      - uses: jidicula/go-fuzz-action@v1.1.0
         with:
           packages: './...'
           fuzz-time: 30s
@@ -76,7 +76,7 @@ jobs:
     name: Fuzz test
     runs-on: ubuntu-latest
     steps:
-      - uses: jidicula/go-fuzz-action@main
+      - uses: jidicula/go-fuzz-action@v1.1.0
         with:
           packages: './...'
           fuzz-time: 30s
