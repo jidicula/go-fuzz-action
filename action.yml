@@ -38,15 +38,16 @@ runs:
       if: failure()
       shell: bash
       run: |
-        MESSAGE='Fuzz test failed. Download the seed corpus with\n```\ngh run download ${{ github.run_id }} -n testdata\n```'
+        MESSAGE='Fuzz test failed on ${{ github.sha }}. Download the seed corpus with\n```\ngh run download ${{ github.run_id }} -n testdata\n```'
         echo -e "$MESSAGE"
     - name: Report failure
       uses: actions/github-script@v6
+      if: failure()
       with:
         script: |
           github.rest.issues.createComment({
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: 'Fuzz test failed. Download the seed corpus with\n```\ngh run download ${{ github.run_id }} -n testdata\n```'
+            body: 'Fuzz test failed on ${{ github.sha }}. Download the seed corpus with\n```\ngh run download ${{ github.run_id }} -n testdata\n```'
           })
