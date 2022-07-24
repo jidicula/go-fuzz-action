@@ -56,8 +56,10 @@ runs:
       if: failure()
       shell: bash
       run: |
-        MESSAGE='Fuzz test failed on ${{ env.SHA }}. To troubleshoot locally, use the [GitHub CLI](https://cli.github.com) to download the seed corpus with\n```\ngh run download ${{ github.run_id }} -n testdata\n```'
-        echo -e "$MESSAGE"
+        MESSAGE='Fuzz test failed on commit ${{ env.SHA }}. To troubleshoot locally, use the [GitHub CLI](https://cli.github.com) to download the seed corpus with\n```\ngh run download ${{ github.run_id }} -n testdata\n```'
+        DEEPLINK="https://github.com/${{ github.repository }}/commit/${{ env.SHA }}"
+        echo -e "${MESSAGE/${{ env.SHA }}/$DEEPLINK}"
+        echo -e "${MESSAGE/${{ env.SHA }}/[${GITHUB_SHA:0:8}]($DEEPLINK)}" >> $GITHUB_STEP_SUMMARY
     - name: Report failure
       uses: actions/github-script@v6
       if: failure() && github.event_name == 'pull_request'
@@ -67,5 +69,5 @@ runs:
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: 'Fuzz test failed on ${{ env.SHA }}. To troubleshoot locally, use the [GitHub CLI](https://cli.github.com) to download the seed corpus with\n```\ngh run download ${{ github.run_id }} -n testdata\n```'
+            body: 'Fuzz test failed on commit ${{ env.SHA }}. To troubleshoot locally, use the [GitHub CLI](https://cli.github.com) to download the seed corpus with\n```\ngh run download ${{ github.run_id }} -n testdata\n```'
           })
