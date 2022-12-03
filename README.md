@@ -14,6 +14,8 @@ You can sponsor me [here](https://github.com/sponsors/jidicula)!
   * Default: `Fuzz`
 * `fuzz-minimize-time` [optional]: Fuzz minimization duration, specified as a `time.Duration` (for example `1h30s`). Corresponds to `-fuzzminimizetime` flag for the `go test` command. If you provide this input, ensure it is less than your job timeout.
   * Default: `10s`
+* `go-version` [optional]: Which version of Go to use for fuzzing. This will be passed on to `actions/setup-go@v3`.
+  * Default: `1.18`
   
 ## Returns:
 * SUCCESS: if your fuzz tests don't raise a failure within the `fuzz-time` input constraint.
