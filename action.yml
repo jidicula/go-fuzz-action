@@ -24,7 +24,7 @@ inputs:
   go-version:
     description: 'Which version of Go to use for fuzzing'
     required: false
-    default: '1.18'
+    default: '1.21'
 
 runs:
   using: 'composite'
