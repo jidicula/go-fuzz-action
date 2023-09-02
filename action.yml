@@ -39,8 +39,8 @@ runs:
       if: failure()
       uses: actions/upload-artifact@v3
       with:
-        name: testdata
-        path: testdata
+        name: '${{ inputs.packages }}/testdata'
+        path: '${{ inputs.packages }}/testdata'
     - run: echo "EVENT NAME IS ${{ github.event_name }}"
       if: failure()
       shell: bash
@@ -60,7 +60,7 @@ runs:
       if: failure()
       shell: bash
       run: |
-        MESSAGE='Fuzz test failed on commit ${{ env.SHA }}. To troubleshoot locally, use the [GitHub CLI](https://cli.github.com) to download the seed corpus with\n```\ngh run download ${{ github.run_id }} -n testdata\n```'
+        MESSAGE='Fuzz test failed on commit ${{ env.SHA }}. To troubleshoot locally, use the [GitHub CLI](https://cli.github.com) to download the seed corpus with\n```\ngh run download ${{ github.run_id }} -n ${{ inputs.packages }}/testdata\n```'
         DEEPLINK="https://github.com/${{ github.repository }}/commit/${{ env.SHA }}"
         echo -e "${MESSAGE/${{ env.SHA }}/$DEEPLINK}"
         echo -e "${MESSAGE/${{ env.SHA }}/[${GITHUB_SHA:0:8}]($DEEPLINK)}" >> $GITHUB_STEP_SUMMARY
@@ -73,5 +73,5 @@ runs:
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: 'Fuzz test failed on commit ${{ env.SHA }}. To troubleshoot locally, use the [GitHub CLI](https://cli.github.com) to download the seed corpus with\n```\ngh run download ${{ github.run_id }} -n testdata\n```'
+            body: 'Fuzz test failed on commit ${{ env.SHA }}. To troubleshoot locally, use the [GitHub CLI](https://cli.github.com) to download the seed corpus with\n```\ngh run download ${{ github.run_id }} -n ${{ inputs.packages }}/testdata\n```'
           })
